@@ -44,7 +44,6 @@ function App() {
               <Route path=":id" element={<SingleBookmark />} />
               <Route path="add" element={<AddNewBookmark />} />
             </Route>
-            
           </Routes>
         </HotelsProvider>
       </BookmarkListProvider>

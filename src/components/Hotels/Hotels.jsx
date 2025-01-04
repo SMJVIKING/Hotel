@@ -1,38 +1,45 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { useHotels } from "../context/HotelsProvider";
 // نکته:نتیجه سرچ هتلها باید علاوه بر کامپوننت هتل تو بقیه کامپوننت ها از جمله کامپوننت مپ هم در دسترس باشه
 //  => پس بهترین گزینه اینه ک نتیجه سرچ رو داخل ی کانتکست قرار بدیم
 
 function Hotels() {
+  const navigate = useNavigate();
   const { isLoading, hotels, currentHotel } = useHotels();
   if (isLoading) <Loader />;
 
   return (
-    <div className="searchList">
-      <h2>Search results ({hotels.length})</h2>
-      {hotels.map((item) => {
-        return (
-          <Link
-            key={item.id}
-            to={`/hotels/${item.id}?lat=${item.latitude}&lng=${item.longitude}`}
-          >
-            <div
-              className={`searchItem  ${
-                item.id === currentHotel?.id ? "current-hotel" : ""
-              }`}
+    <div>
+      <button onClick={() => navigate(-1)} className="btn btn--primary">
+        &larr;
+      </button>
+
+      <div className="searchList">
+        <h2>Search results ({hotels.length})</h2>
+        {hotels.map((item) => {
+          return (
+            <Link
+              key={item.id}
+              to={`/hotels/${item.id}?lat=${item.latitude}&lng=${item.longitude}`}
             >
-              <img src={item.thumbnail_url} alt={item.name} />
-              <div className="searchItemDesc">
-                <p className="location">{item.smart_location}</p>
-                <p className="name">{item.name}</p>
-                €&nbsp;{item.price} &nbsp;
-                <span>night</span>
+              <div
+                className={`searchItem  ${
+                  item.id === currentHotel?.id ? "current-hotel" : ""
+                }`}
+              >
+                <img src={item.thumbnail_url} alt={item.name} />
+                <div className="searchItemDesc">
+                  <p className="location">{item.smart_location}</p>
+                  <p className="name">{item.name}</p>
+                  €&nbsp;{item.price} &nbsp;
+                  <span>night</span>
+                </div>
               </div>
-            </div>
-          </Link>
-        );
-      })}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

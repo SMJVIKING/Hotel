@@ -1,5 +1,8 @@
-import { MdLocationOn, MdLogout } from "react-icons/md";
-import { HiCalendar, HiLogout, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
+import { MdLocationOn, MdLogin, MdLogout } from "react-icons/md";
+import { HiCalendar, HiMinus, HiPlus, HiSearch } from "react-icons/hi";
+import { IoMdOptions } from "react-icons/io";
+import { FaBookmark } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
 import { useRef, useState } from "react";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import "react-date-range/dist/styles.css"; // main style file
@@ -14,11 +17,12 @@ import {
 } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
-
 function Header() {
   // destination:
-  const [searchParams, setSearchParams] = useSearchParams(); 
-  const [destination, setDestination] = useState(searchParams.get("destination") || "");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [destination, setDestination] = useState(
+    searchParams.get("destination") || ""
+  );
   // options:
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
@@ -50,7 +54,7 @@ function Header() {
   };
 
   // نکات این بخش رو تو نوت بخون
-   const handleSearch = () => {
+  const handleSearch = () => {
     const encodedParams = createSearchParams({
       date: JSON.stringify(date),
       destination,
@@ -59,19 +63,15 @@ function Header() {
     // setSearchParams(encodedParams);
     // refresh:
     navigate({
-      pathname:"/hotels",
-      search:encodedParams.toString(),
+      pathname: "/hotels",
+      search: encodedParams.toString(),
       // toString => must we do that because its an object
-    })
+    });
   };
-
 
   return (
     <div className="header">
-      <NavLink to="/bookmark">Bookmarks</NavLink>
-
       <div className="headerSearch">
-
         <div className="headerSearchItem">
           <MdLocationOn className="headerIcon locationIcon" />
           <input
@@ -83,16 +83,23 @@ function Header() {
             name="destination"
             id="destination"
           />
+
+          <button className="headerSearchBtn" onClick={handleSearch}>
+            <HiSearch className="headerIcon" />
+          </button>
+
           <span className="seperator"></span>
         </div>
 
         <div className="headerSearchItem">
-          <HiCalendar className="headerIcon dateIcon" />
-          <div className="dateDropDown" onClick={() => setOpenDate(!openDate)}>
-            {`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
-              date[0].endDate,
-              "MM/dd/yyyy"
-            )}`}
+          <div className="dateContainer" onClick={() => setOpenDate(!openDate)}>
+            <HiCalendar className="headerIcon dateIcon" />
+            <div className="dateDropDown">
+              {`${format(date[0].startDate, "MM/dd/yyyy")} to ${format(
+                date[0].endDate,
+                "MM/dd/yyyy"
+              )}`}
+            </div>
           </div>
           {openDate && (
             <DateRange
@@ -107,10 +114,18 @@ function Header() {
         </div>
 
         <div className="headerSearchItem">
-          <div id="optionDropDown" onClick={() => setOpenOptions(!openOptions)}>
-            {options.adult} adult &bull; {options.children} children &bull;{" "}
-            {options.room} room
+          <div
+            id="optionDropDown"
+            onClick={() => setOpenOptions(!openOptions)}
+            className="optionsContainer"
+          >
+            <IoMdOptions className="headerIcon optionsIcon" />
+            <div className="options">
+              {options.adult} adult &bull; {options.children} children &bull;{" "}
+              {options.room} room
+            </div>
           </div>
+
           {/* این دیو بچه قراره پوزیش absolute بگیره نسبت ب تگ پدرش */}
           {openOptions && (
             <GuestOptionList
@@ -122,16 +137,14 @@ function Header() {
           <span className="seperator"></span>
         </div>
 
-        <div className="headerSearchItem">
-          <button className="headerSearchBtn" onClick={handleSearch}>
-            <HiSearch className="headerIcon" />
-          </button>
+        <div>
+          <NavLink to="/bookmark">
+            <FaBookmark className="headerIcon bookmarkIcon" />
+          </NavLink>
         </div>
-        
       </div>
 
-      <User/>
-     
+      <User />
     </div>
   );
 }
@@ -199,19 +212,23 @@ function User() {
     logout();
     navigate("/");
   };
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   return (
     <div>
       {isAuthenticated ? (
-        <div>
-          <strong>{user.name}</strong>
-          <button>
-            &nbsp; <MdLogout onClick={handleLogout} className="logout icon" />
+        <div className="userContainer">
+          <strong className="userName">{user.name}</strong>
+          <button className="logoutButton">
+            <MdLogout onClick={handleLogout} className="logout headerIcon" />
           </button>
         </div>
       ) : (
-        
-        <NavLink to="/login">Login</NavLink>
+        <button>
+          <MdLogin onClick={handleLogin} className="login headerIcon" />
+        </button>
       )}
     </div>
   );

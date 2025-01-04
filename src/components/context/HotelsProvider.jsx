@@ -35,7 +35,6 @@ function HotelsProvider({ children }) {
       setIsLoadingCurrHotel(false);
     }
   }
-  
 
   return (
     <HotelContext.Provider

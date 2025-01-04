@@ -115,7 +115,7 @@ const {createBookmarks}=useBookmarks();
 
         <div className="buttons">
           <button
-            className="btn btn--back"
+            className="btn btn--primary"
             onClick={(e) => {
               // توی فرم ها رفرش داریم => اینجا ک بک میزنیم رفرش میشه و
               // برای جلوگیری از این =>این خط کد رو زدیم

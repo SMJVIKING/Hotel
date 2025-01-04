@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useBookmarks } from "../context/BookmarkListContext";
 import Loader from "../Loader/Loader";
 import ReactCountryFlag from "react-country-flag";
 import { HiTrash } from "react-icons/hi";
 
 function Bookmark() {
+  const navigate = useNavigate();
   const {
     isLoading,
     deleteBookmark,
@@ -13,7 +14,7 @@ function Bookmark() {
   } = useBookmarks();
 
   if (isLoading) return <Loader />;
-  if(!bookmarks.length) return <p>there is no bookmark Location</p>
+  if (!bookmarks.length) return <p>there is no bookmark Location</p>;
 
   const handleDelete = async (e, id) => {
     // این برای اینکه از رفتار پیش فرض تگ لینک ک این ایونت هندلر داخلش اجرا میشه جلوگیری بشه :
@@ -23,6 +24,9 @@ function Bookmark() {
 
   return (
     <div>
+      <button onClick={() => navigate(-1)} className="btn btn--primary">
+        &larr;
+      </button>
       <h2>BookmarkList</h2>
       <div className="bookmarkList">
         {bookmarks.map((item) => {
@@ -47,7 +51,7 @@ function Bookmark() {
                   &nbsp; <strong>{item.cityName}</strong>
                   &nbsp; <span>{item.country}</span>
                 </div>
-                <button onClick={(e) => handleDelete(e,item.id)}>
+                <button onClick={(e) => handleDelete(e, item.id)}>
                   <HiTrash className="trash" />
                 </button>
               </div>

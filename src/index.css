@@ -2,7 +2,7 @@
   font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto,
     Helvetica Neue, sans-serif;
   -webkit-font-smoothing: antialiased;
-  --bg-color: #f3f4f6;
+  --bg-color: #f6f8f9;
   --text-700: #374151;
   --text-400: #94a3b8;
   --text-500: #64748b;
@@ -17,6 +17,8 @@
 body {
   min-height: 100vh;
   padding: 1rem;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
 }
 * {
   margin: 0;

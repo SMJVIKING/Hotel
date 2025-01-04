@@ -7,8 +7,7 @@ import ReactCountryFlag from "react-country-flag";
 function SingleBookmark() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { currentBookmarks, isLoading, getBookmarks } =
-    useBookmarks();
+  const { currentBookmarks, isLoading, getBookmarks } = useBookmarks();
 
   useEffect(() => {
     getBookmarks(id);
@@ -18,14 +17,16 @@ function SingleBookmark() {
 
   return (
     <div>
-      <button onClick={() => navigate(-1)} className="btn btn--back">
+      <button onClick={() => navigate(-1)} className="btn btn--primary">
         &larr;
       </button>
-      <h2>{currentBookmarks.cityName}</h2>
-      <div className="bookmarkItem">
-        <ReactCountryFlag svg countryCode={currentBookmarks.countryCode} />
-        &nbsp; <strong>{currentBookmarks.cityName}</strong>
-        &nbsp; <span>{currentBookmarks.country}</span>
+      <div>
+        <h2>{currentBookmarks.cityName}</h2>
+        <div className="bookmarkItem">
+          <ReactCountryFlag svg countryCode={currentBookmarks.countryCode} />
+          &nbsp; <strong>{currentBookmarks.cityName}</strong>
+          &nbsp; <span>{currentBookmarks.country}</span>
+        </div>
       </div>
     </div>
   );
