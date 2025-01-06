@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
+
 export default function useFetch(url,query="") {
     const [data,setData]=useState([]);
     const [isLoading,setIsLoading]=useState(false);
